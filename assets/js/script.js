@@ -25,7 +25,8 @@ function clearDay(){
 
 
 function loadPlanner(){
-    var today = "this is where the date goes";// = get today from momemnt.js
+    //get today from momemnt.js
+    var today = moment();
     var currentDayEL = $('#currentDay');
     currentDayEL.text(today);
 
@@ -49,7 +50,7 @@ function loadPlanner(){
 
     //add time blocks from 9am to 9pm
     //13 = number of time blocks to add
-    for(var i = 0; i < timeBlocks; i++){
+    for(var i = 0; i < timeBlocks; i++){      
         //create a div
         var timeBlockEl = $("<div>");
         timeBlockEl.attr('class','time-block');
@@ -63,9 +64,12 @@ function loadPlanner(){
         var textBoxEl = $('<input>');
         textBoxEl.attr('type', 'text');
         textBoxEl.attr('id', i+'text');
-        if(i < timeIndex){
+        //time of day
+        var time = moment().format("HH");
+        console.log(time);
+        if(i+8 < time){
            textBoxEl.attr('class','past');
-        }else if(i === timeIndex){
+        }else if(i+8 == time){
            textBoxEl.attr('class','present');
         }else{
            textBoxEl.attr('class','future');
