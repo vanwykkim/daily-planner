@@ -28,7 +28,7 @@ function loadPlanner(){
     //get today from momemnt.js
     var today = moment();
     var currentDayEL = $('#currentDay');
-    currentDayEL.text(today);
+    currentDayEL.text(today.format('dddd MMM Do, YYYY'));
 
     //get a hook into the container class to add time blocks
     var containerEl = $('.container');
@@ -65,7 +65,7 @@ function loadPlanner(){
         textBoxEl.attr('type', 'text');
         textBoxEl.attr('id', i+'text');
         //time of day
-        var time = moment().format("HH");
+        var time = today.format("HH");
         console.log(time);
         if(i+8 < time){
            textBoxEl.attr('class','past');
