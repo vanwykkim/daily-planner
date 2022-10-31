@@ -70,10 +70,11 @@ textarea {
   background-color: #06aed5;
   color: white;
   min-width:15%;
+  padding-top: 15px;
 }
 
-.saveBtn i:hover {
-  font-size: 20px;
+/* i took the i tag off because I prefer the hover on the whole button not just the save icon as listener on whole button */
+.saveBtn:hover {
   transition: all 0.3s ease-in-out;
-  color: red;
+  color: lime;
 }

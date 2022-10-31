@@ -77,11 +77,14 @@ function loadPlanner(){
         }
         timeBlockEl.append(textBoxEl);
         //create/append a save button 
-        var saveButtonEl = $('<btn>Save</btn>');
+        var saveButtonEl = $('<btn>');
         //set a id to know which element you're grabbing to save in listener function
         saveButtonEl.attr('id', i);
         saveButtonEl.attr('class', 'saveBtn');
-        saveButtonEl.addClass("saveBtn i:hover");
+        var iTagEl = $('<i>');
+        iTagEl.attr('class', 'fa fa-save');
+        iTagEl.css('font-size', '50px');
+        saveButtonEl.append(iTagEl);
         timeBlockEl.append(saveButtonEl);
 
         //append div to container
