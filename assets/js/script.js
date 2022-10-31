@@ -8,10 +8,6 @@ var cachedArray= ["","","","","","","","","","","",""];
 var timeBlocks = 13;
 
 
-
-
-
-
 //create function to clear cache if new day
 function clearDay(){
     //set cachedDay to today's date in cache
@@ -27,6 +23,7 @@ function clearDay(){
 function loadPlanner(){
     //get today from momemnt.js
     var today = moment();
+    //get hook into header where current date should be, use date (today), append
     var currentDayEL = $('#currentDay');
     currentDayEL.text(today.format('dddd MMM Do, YYYY'));
 
@@ -41,12 +38,10 @@ function loadPlanner(){
     var timeIndex = 0;
 
     //check if cached day. If no cached day set to current day, if cached prior to today run clear function
-    if(cachedDay !== today){ 
-        //clear cached  array and set current day
-        clearDay();
-    }
-
-    //get hook into header where current date should be, use date (today), append
+    // if(cachedDay !== today){ 
+    //     //clear cached  array and set current day
+    //     clearDay();
+    // }
 
     //add time blocks from 9am to 9pm
     //13 = number of time blocks to add
@@ -96,6 +91,20 @@ var saveBtnEl = $('.saveBtn');
 //create a function to add a save button
 //button needs to know which line it's on 0-12 so it can save text to the correct array index in cached array
 saveBtnEl.on("click", function(){
+    //get the id of the timeblock you're saving
     var buttonIndex = this.id;
-    console.log(this.id+" button pushed");
+    //the block of text in the planner to save
+    var textblock = "#" + buttonIndex + "text";
+    var textEl = $(textblock);//$("#"+buttonIndex +'text');
+    //check if already cached an array
+    var isCachedArray = JSON.parse(localStorage.getItem("myCachedArray"));
+    if (isCachedArray !== null && isCachedArray !== "undefined") {
+        cachedArray = isCachedArray;//get array from local storage
+        cachedArray[buttonIndex] = textEl.val(); //add value at index
+        localStorage.setItem("myCachedArray", JSON.stringify(cachedArray));//restore array to local storage
+    }else{
+        //no local storage started. Start it. 
+        cachedArray[buttonIndex] = textEl.val();
+        localStorage.setItem("myCachedArray", JSON.stringify(cachedArray));//set array to local storage
+    }
 });
