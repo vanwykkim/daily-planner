@@ -1,28 +1,35 @@
 
 
-//var current day held in cache
-var cachedDay; //check for date in cache? = 01/01/1999;
 //var an array in cache to hold text for 13 hour blocks
 var cachedArray= ["","","","","","","","","","","",""];
-//at load check if current day same
+//number of timeblocks using
 var timeBlocks = 13;
 
 
-//create function to clear cache if new day
-function clearDay(){
-    //set cachedDay to today's date in cache
-    //setDay(); create a function or just do it
+//function to clear cache if new day
+function clearDay(date){
 
-    // go thru cached array and set all text to ""
+    //set cachedDay to today's date in cache
+    localStorage.setItem("myCachedDay", JSON.stringify(date.format('YYYY-MM-DD')));
+    // go thru array and set all text to "" to clear cache
     for(var i = 0; i < timeBlocks; i++){
         cachedArray[i]="";
     }
+    //start a fresh cachedArray for a fresh day
+    localStorage.setItem("myCachedArray", JSON.stringify(cachedArray));
 }
-
 
 function loadPlanner(){
     //get today from momemnt.js
     var today = moment();
+    var cachedDay = JSON.parse(localStorage.getItem("myCachedDay"));
+    if (cachedDay !== null && cachedDay !== "undefined"){
+        localStorage.setItem("myCachedDay", JSON.stringify(today.format('YYYY-MM-DD')));
+    }else{
+        if(cachedDay !== today.format('YYYY-MM-DD')){
+            clearDay(today);
+        }   
+    }
     //get hook into header where current date should be, use date (today), append
     var currentDayEL = $('#currentDay');
     currentDayEL.text(today.format('dddd MMM Do, YYYY'));
@@ -35,15 +42,8 @@ function loadPlanner(){
     var timesArray = ["8AM","9AM","10AM","11AM","12PM","1PM","2PM","3PM","4PM","5PM","6PM","7PM","8PM"];
     console.log(timesArray);
     //Index for current time on planner
-    var timeIndex = 0;
 
-    //check if cached day. If no cached day set to current day, if cached prior to today run clear function
-    // if(cachedDay !== today){ 
-    //     //clear cached  array and set current day
-    //     clearDay();
-    // }
-
-    //add time blocks from 9am to 9pm
+    //add time blocks from 8am to 8pm
     //13 = number of time blocks to add
     for(var i = 0; i < timeBlocks; i++){      
         //create a div
@@ -59,9 +59,17 @@ function loadPlanner(){
         var textBoxEl = $('<input>');
         textBoxEl.attr('type', 'text');
         textBoxEl.attr('id', i+'text');
+        //check for cached planner text array
+        var thisCachedArray = JSON.parse(localStorage.getItem("myCachedArray"));
+        if (thisCachedArray !== null && thisCachedArray !== "undefined") {
+            //if myCachedArray exits
+            //do I need to do this? set cachedArray to the local storage array myCachedArray
+           // cachedArray = thisCachedArray;
+            //set value from cached array
+            textBoxEl.attr('value', thisCachedArray[i]); 
+        }
         //time of day
         var time = today.format("HH");
-        console.log(time);
         if(i+8 < time){
            textBoxEl.attr('class','past');
         }else if(i+8 == time){
