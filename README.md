@@ -4,16 +4,17 @@
 This program creates a day planner to use to plan your current day. 
 
 - Used Moment.JS to do time calculations
-- stuff here
-- stuff here
-- stuff here
-- Commented my code in Javascript
+- created a load function to initialize the planner
+- created an eventlistener to save timeblocks to local storage
+- created a function to clear the storage on day changes
+- Wrote and commented the Javascript code
 - Created a read.me
 
 ## Screenshot
 
-![Screenshot of daily planner](2022-10-13.png)
-![Screenshot of saved events](2022-10-13%20(1).png)
+![Screenshot of daily planner](2022-10-30%20(1).png)
+![Screenshot of planning blocks](2022-10-31.png)
+![Screenshot of saved events](2022-10-31%20(1).png)
 
 
 ## Link to Project
