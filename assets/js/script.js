@@ -50,23 +50,21 @@ function loadPlanner(){
         var timeBlockEl = $("<div>");
         timeBlockEl.attr('class','time-block');
         timeBlockEl.addClass('row');
+        
         //create/append a time section
         var timeSectionEl = $('<p>');
         timeSectionEl.attr('class','hour');
         timeSectionEl.text(timesArray[i]);
         timeBlockEl.append(timeSectionEl);
         //create/append a text box// color textbox based on if it's current time/ previous or future//fill text content for textbox if from cache
-        var textBoxEl = $('<input>');
+        var textBoxEl = $('<textarea>');
         textBoxEl.attr('type', 'text');
         textBoxEl.attr('id', i+'text');
         //check for cached planner text array
         var thisCachedArray = JSON.parse(localStorage.getItem("myCachedArray"));
         if (thisCachedArray !== null && thisCachedArray !== "undefined") {
-            //if myCachedArray exits
-            //do I need to do this? set cachedArray to the local storage array myCachedArray
-           // cachedArray = thisCachedArray;
-            //set value from cached array
-            textBoxEl.attr('value', thisCachedArray[i]); 
+            //if myCachedArray exits set value from cached array
+            textBoxEl.val(thisCachedArray[i]); 
         }
         //time of day
         var time = today.format("HH");
@@ -78,10 +76,12 @@ function loadPlanner(){
            textBoxEl.attr('class','future');
         }
         timeBlockEl.append(textBoxEl);
-        //create/append a save button //maybe set btn id = i?; so can use i to set text array?
+        //create/append a save button 
         var saveButtonEl = $('<btn>Save</btn>');
+        //set a id to know which element you're grabbing to save in listener function
         saveButtonEl.attr('id', i);
         saveButtonEl.attr('class', 'saveBtn');
+        saveButtonEl.addClass("saveBtn i:hover");
         timeBlockEl.append(saveButtonEl);
 
         //append div to container
@@ -93,17 +93,18 @@ function loadPlanner(){
 
 //call loadPlanner to set the page
 loadPlanner();
+
+//link to element saved button in the Dom using class
 var saveBtnEl = $('.saveBtn');
 
 //save button CLICK listener
-//create a function to add a save button
-//button needs to know which line it's on 0-12 so it can save text to the correct array index in cached array
 saveBtnEl.on("click", function(){
     //get the id of the timeblock you're saving
     var buttonIndex = this.id;
     //the block of text in the planner to save
     var textblock = "#" + buttonIndex + "text";
-    var textEl = $(textblock);//$("#"+buttonIndex +'text');
+    //element for correct textblock in the dom
+    var textEl = $(textblock);
     //check if already cached an array
     var isCachedArray = JSON.parse(localStorage.getItem("myCachedArray"));
     if (isCachedArray !== null && isCachedArray !== "undefined") {
