@@ -24,11 +24,11 @@ function loadPlanner(){
     var today = moment();
     var cachedDay = JSON.parse(localStorage.getItem("myCachedDay"));
     if (cachedDay !== null && cachedDay !== "undefined"){
-        localStorage.setItem("myCachedDay", JSON.stringify(today.format('YYYY-MM-DD')));
-    }else{
         if(cachedDay !== today.format('YYYY-MM-DD')){
             clearDay(today);
-        }   
+        }      
+    }else{
+        localStorage.setItem("myCachedDay", JSON.stringify(today.format('YYYY-MM-DD')));
     }
     //get hook into header where current date should be, use date (today), append
     var currentDayEL = $('#currentDay');
